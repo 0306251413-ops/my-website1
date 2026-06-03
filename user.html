@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>User Dashboard</title>
+
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Trang chủ</a>
+    <a href="Order.html">Đặt hàng</a>
+    <a href="#" onclick="logout()">Đăng xuất</a>
+</nav>
+
+<h1>Trang Người Dùng</h1>
+<p>Chào mừng User.</p>
+
+<script>
+function logout(){
+    localStorage.clear();
+    window.location.href = "DangNhap.html";
+}
+</script>
+
+</body>
+</html>

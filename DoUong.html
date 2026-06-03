@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="style.css" />
+    </head>
+<body>
+
+  <header class="header">
+    <div class="logo">Original Coffee</div>
+   <nav class="menu">
+    <a href="index.html">Trang chủ</a>
+    <a href="douong.html">Đồ uống</a>
+    <a href="doan.html">Đồ ăn</a>
+ 
+
+</nav>
+  </header>
+
+  <section class="banner">
+    <div class="banner-text">
+      <h1>Khám Phá Bộ Đồ Uống Mới</h1>
+      <p>Cà phê đậm gu - Đậm vị - Đậm lòng người.</p>
+      <div class="banner-buttons">
+    <a href="#" class="btn-buy">Mua ngay</a>
+    <a href="Order.html" class="btn-pay">Thanh toán</a>
+</div>
+    </div>
+
+    <div class="banner-image">
+      <img src="27eea866-e544-4f16-94d8-b39fd550b080.png" alt="Banner Coffee" />
+    </div>
+  </section>
+
+<section class="products">
+    <h2>NƯỚC NGỌT VÀ PHA CHẾ</h2>
+
+    <div class="product-list" id="drinkList">
+
+    <div class="product-card">
+        <img src="https://cdnv2.tgdd.vn/bhx-static/bhx/Products/Images/3226/76519/bhx/nuoc-tang-luc-sting-dau-sleek-lon-330ml_202509291421449068.jpg" alt="Sting" />
+        <h3>Sting</h3>
+        <div class="price">15.000đ</div>
+        <button onclick="orderProduct('Sting', 20000)">Đặt ngay</button>
+    </div>
+
+    <div class="product-card">
+        <img src="https://vietmartjp.com/wp-content/uploads/2021/05/bo-huc-redbull-nuoc-giai-khat-thuc-pham-viet-o-nhat-vietmart.jpg" alt="Bò Húc" />
+        <h3>Bò Húc</h3>
+        <div class="price">20.000đ</div>
+        <button onclick="orderProduct('Bò Húc', 25000)">Đặt ngay</button>
+    </div>
+
+    <div class="product-card">
+        <img src="https://cdn.tgdd.vn/Products/Images/3226/209214/bhx/nuoc-tang-luc-warrior-huong-dau-lon-325ml-202306191530349145.jpg" alt="Warrior" />
+        <h3>Warrior</h3>
+        <div class="price">15.000đ</div>
+        <button onclick="orderProduct('Warrior', 35000)">Đặt ngay</button>
+    </div>
+
+    <div class="product-card">
+        <img src="https://www.nescafe.com/nz/sites/default/files/2023-09/NESCAF%C3%89%20Cappuccino.jpg" alt="Cappuccino" />
+        <h3>Cappuccino</h3>
+        <div class="price">50.000đ</div>
+        <button onclick="orderProduct('Cappuccino', 50000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://vietblend.vn/wp-content/uploads/2018/12/cafe-mocha-nong.jpg" alt="Mocha" />
+        <h3>Mocha</h3>
+        <div class="price">30.000đ</div>
+        <button onclick="orderProduct('Mocha', 30000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://winci.com.vn/wp-content/uploads/2024/03/Cach-pha-ca-phe-Cold-Brew-Sua-Tuoi-thom-ngon.jpg" alt="Cold Brew" />
+        <h3>Cold Brew</h3>
+        <div class="price">20.000đ</div>
+        <button onclick="orderProduct('Cold Brew', 20000)">Đặt ngay</button>
+      </div>
+</div>
+  </section>
+
+ 
+  <footer class="footer">
+    <h3>ORIGINAL COFFEE</h3>
+
+    <p>
+        Original Coffee là thương hiệu cà phê mang đến những sản phẩm chất lượng,
+        được chế biến từ nguồn nguyên liệu tuyển chọn, giúp khách hàng tận hưởng
+        hương vị cà phê đậm đà và không gian thưởng thức hiện đại.
+    </p>
+
+    <p>
+        📍 Địa chỉ: 65 Huỳnh Thúc Kháng, Phường Sài Gòn, TP. Hồ Chí Minh
+    </p>
+
+    <p>
+        📞 Hotline: 1900 6736
+    </p>
+
+    <p>
+        ✉ Email: support@originalcoffee.com
+    </p>
+
+    <p>
+        🕒 Giờ mở cửa: 07:00 - 22:00 (Thứ Hai - Chủ Nhật)
+    </p>
+
+    <p>
+        🚚 Giao hàng nhanh toàn khu vực TP. Hồ Chí Minh
+    </p>
+
+    <p>
+        © 2026 Original Coffee. All Rights Reserved.
+    </p>
+</footer>
+<script>
+
+document.getElementById("loadMoreBtn").addEventListener("click", function() {
+    document.getElementById("moreProducts").style.display = "block";
+    this.style.display = "none";
+});
+</script>
+<script>
+
+const products =
+JSON.parse(localStorage.getItem("products")) || [];
+
+const drinkList =
+document.getElementById("drinkList");
+
+const drinks =
+products.filter(
+p => p.category === "Đồ uống"
+);
+
+// Render danh sách
+if(drinks.length > 0){
+    drinkList.innerHTML = "";
+}
+
+drinks.forEach(p => {
+
+    drinkList.innerHTML += `
+    <div class="product-card">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+
+        <div class="price">
+            ${Number(p.price).toLocaleString()}đ
+        </div>
+
+        <button onclick="orderProduct('${p.name}', ${p.price})">
+            Đặt ngay
+        </button>
+    </div>
+    `;
+
+});
+
+function orderProduct(name, price) {
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({
+            id: Date.now(),
+            name: name,
+            price: Number(price),
+            qty: 1
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Đã thêm vào đơn hàng!");
+}
+
+
+</script>
+</body>
+</html>

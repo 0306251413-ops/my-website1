@@ -1,0 +1,197 @@
+<!Doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Original Coffee - Giới Thiệu Sản Phẩm</title>
+
+  
+  
+  <script>
+const loggedIn = localStorage.getItem("loggedIn");
+const role = localStorage.getItem("role");
+
+if(loggedIn !== "true" || !role){
+    window.location.href = "DangNhap.html";
+}
+</script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  
+  <header class="header">
+    <div class="logo">Original Coffee</div>
+   <nav class="menu">
+    <a href="index.html">Trang chủ</a>
+    <a href="douong.html">Đồ uống</a>
+    <a href="doan.html">Đồ ăn</a>
+    <a href="DangNhap.html">Admin</a>
+
+</nav>
+  </header>
+
+
+  <section class="banner">
+    <div class="banner-text">
+      <h1>Khám Phá Bộ Đồ Uống Mới</h1>
+      <p>Cà phê đậm gu - Đậm vị - Đậm lòng người.</p>
+      <div class="banner-buttons">
+    <a href="#" class="btn-buy">Mua ngay</a>
+    <a href="Order.html" class="btn-pay">Thanh toán</a>
+</div>
+    </div>
+
+    <div class="banner-image">
+      <img src="27eea866-e544-4f16-94d8-b39fd550b080.png" alt="Banner Coffee" />
+    </div>
+  </section>
+
+
+  <script>
+    function orderProduct(name, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      cart.push({
+        id: Date.now(),
+        name: name,
+        price: price,
+        qty: 1
+      });
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      window.location.href = "Order.html";
+    }
+  </script>
+
+
+  <section class="products">
+    <h2>Sản phẩm nổi bật</h2>
+
+    <div class="product-list">
+
+      <div class="product-card">
+        <img src="https://winci.com.vn/wp-content/uploads/2023/12/Ca-phe-den-la-gi.jpg" alt="Cà phê đen" />
+        <h3>Cà phê đen</h3>
+        <p>Đậm đà, nguyên chất, dành cho người thích vị mạnh.</p>
+        <div class="price">20.000đ</div>
+        <button onclick="orderProduct('Cà phê đen', 20000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://bizweb.dktcdn.net/100/455/801/files/ca-phe-sua-la-gi.jpg?v=1711902651547" alt="Cà phê sữa" />
+        <h3>Cà phê sữa</h3>
+        <p>Béo ngậy, hài hòa giữa cà phê và sữa.</p>
+        <div class="price">25.000đ</div>
+        <button onclick="orderProduct('Cà phê sữa', 25000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://cdn.hstatic.net/200000870851/file/gecoffee-cong-thuc-latte-sang-tao__7__993681b49515429eb7ff941086718621_grande.png" alt="Matcha Latte" />
+        <h3>Matcha Latte</h3>
+        <p>Mịn màng, nhẹ nhàng với lớp sữa thơm.</p>
+        <div class="price">35.000đ</div>
+        <button onclick="orderProduct('Latte', 35000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://www.nescafe.com/nz/sites/default/files/2023-09/NESCAF%C3%89%20Cappuccino.jpg" alt="Cappuccino" />
+        <h3>Cappuccino</h3>
+        <p>Cân bằng hoàn hảo giữa espresso và sữa.</p>
+        <div class="price">50.000đ</div>
+        <button onclick="orderProduct('Cappuccino', 50000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://vietblend.vn/wp-content/uploads/2018/12/cafe-mocha-nong.jpg" alt="Mocha" />
+        <h3>Mocha</h3>
+        <p>Kết hợp cà phê và chocolate ngọt ngào.</p>
+        <div class="price">30.000đ</div>
+        <button onclick="orderProduct('Mocha', 30000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://winci.com.vn/wp-content/uploads/2024/03/Cach-pha-ca-phe-Cold-Brew-Sua-Tuoi-thom-ngon.jpg" alt="Cold Brew" />
+        <h3>Cold Brew</h3>
+        <p>Đậm vị, ủ lạnh tự nhiên.</p>
+        <div class="price">20.000đ</div>
+        <button onclick="orderProduct('Cold Brew', 20000)">Đặt ngay</button>
+      </div>
+      
+      
+
+    </div>
+  </section>
+
+
+  <section class="features">
+    <div class="feature-box">
+      <h3>Chất lượng</h3>
+      <p>Sản phẩm được chọn lọc kỹ càng.</p>
+    </div>
+
+    <div class="feature-box">
+      <h3>Giá tốt</h3>
+      <p>Nhiều chương trình ưu đãi hấp dẫn.</p>
+    </div>
+
+    <div class="feature-box">
+      <h3>Giao nhanh</h3>
+      <p>Hỗ trợ giao hàng toàn TP.HCM.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <h3>ORIGINAL COFFEE</h3>
+
+    <p>
+        Original Coffee là thương hiệu cà phê mang đến những sản phẩm chất lượng,
+        được chế biến từ nguồn nguyên liệu tuyển chọn, giúp khách hàng tận hưởng
+        hương vị cà phê đậm đà và không gian thưởng thức hiện đại.
+    </p>
+
+    <p>
+        📍 Địa chỉ: 65 Huỳnh Thúc Kháng, Phường Sài Gòn, TP. Hồ Chí Minh
+    </p>
+
+    <p>
+        📞 Hotline: 1900 6736
+    </p>
+
+    <p>
+        ✉ Email: support@originalcoffee.com
+    </p>
+
+    <p>
+        🕒 Giờ mở cửa: 07:00 - 22:00 (Thứ Hai - Chủ Nhật)
+    </p>
+
+    <p>
+        🚚 Giao hàng nhanh toàn khu vực TP. Hồ Chí Minh
+    </p>
+
+    <p>
+        © 2026 Original Coffee. All Rights Reserved.
+    </p>
+</footer>
+<script>
+function orderProduct(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+        id: Date.now(),
+        name: name,
+        price: price,
+        qty: 1
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Đã thêm vào đơn hàng!");
+}
+</script>
+</body>
+</html>

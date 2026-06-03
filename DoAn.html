@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đồ ăn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <header class="header">
+    <div class="logo">Original Coffee</div>
+   <nav class="menu">
+    <a href="index.html">Trang chủ</a>
+    <a href="douong.html">Đồ uống</a>
+    <a href="doan.html">Đồ ăn</a>
+
+
+</nav>
+  </header>
+
+
+  <section class="banner">
+    <div class="banner-text">
+      <h1>Khám Phá Bộ Đồ Uống Mới</h1>
+      <p>Cà phê đậm gu - Đậm vị - Đậm lòng người.</p>
+      <div class="banner-buttons">
+    <a href="#" class="btn-buy">Mua ngay</a>
+    <a href="Order.html" class="btn-pay">Thanh toán</a>
+</div>
+    </div>
+
+    <div class="banner-image">
+      <img src="27eea866-e544-4f16-94d8-b39fd550b080.png" alt="Banner Coffee" />
+    </div>
+  </section>
+
+
+<section class="products">
+    <h2>ĐỒ ĂN</h2>
+
+    <div class="product-list" id="foodList">
+</div>
+<div class="product-card">
+        <img src="https://i-giadinh.vnecdn.net/2023/08/05/mon-7-1691221823-6409-1691221866.jpg" alt="Bánh tráng trộn" />
+        <h3>Cà phê đen</h3>
+        <div class="price">20.000đ</div>
+        <button onclick="orderProduct('Cà phê đen', 20000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://beptruong.edu.vn/wp-content/uploads/2016/01/banh-mi-sung-trau-croissant.jpg" alt="Bánh sừng trâu" />
+        <h3>Cà phê sữa</h3>
+        <div class="price">25.000đ</div>
+        <button onclick="orderProduct('Cà phê sữa', 25000)">Đặt ngay</button>
+      </div>
+
+      <div class="product-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdVJ3ULPCsd9muBXoP6QKnAni0smipTfZ88g&s" alt="Tiramisu" />
+        <h3>Latte</h3>
+        <div class="price">35.000đ</div>
+        <button onclick="orderProduct('Latte', 35000)">Đặt ngay</button>
+      </div>
+</div>
+
+  </section>
+
+
+  <footer class="footer">
+    <h3>ORIGINAL COFFEE</h3>
+
+    <p>
+        Original Coffee là thương hiệu cà phê mang đến những sản phẩm chất lượng,
+        được chế biến từ nguồn nguyên liệu tuyển chọn, giúp khách hàng tận hưởng
+        hương vị cà phê đậm đà và không gian thưởng thức hiện đại.
+    </p>
+
+    <p>
+        📍 Địa chỉ: 65 Huỳnh Thúc Kháng, Phường Sài Gòn, TP. Hồ Chí Minh
+    </p>
+
+    <p>
+        📞 Hotline: 1900 6736
+    </p>
+
+    <p>
+        ✉ Email: support@originalcoffee.com
+    </p>
+
+    <p>
+        🕒 Giờ mở cửa: 07:00 - 22:00 (Thứ Hai - Chủ Nhật)
+    </p>
+
+    <p>
+        🚚 Giao hàng nhanh toàn khu vực TP. Hồ Chí Minh
+    </p>
+
+    <p>
+        © 2026 Original Coffee. All Rights Reserved.
+    </p>
+</footer>
+<script>
+
+document.getElementById("loadMoreBtn").addEventListener("click", function() {
+    document.getElementById("moreProducts").style.display = "block";
+    this.style.display = "none";
+});
+</script>
+<script>
+
+const products =
+JSON.parse(localStorage.getItem("products")) || [];
+
+const foodList =
+document.getElementById("foodList");
+
+const foods =
+products.filter(
+p => p.category === "Đồ ăn"
+);
+
+// Xóa dữ liệu cũ
+foodList.innerHTML = "";
+
+// Render toàn bộ đồ ăn từ Admin
+foods.forEach(p => {
+
+    foodList.innerHTML += `
+    <div class="product-card">
+
+        <img src="${p.image}" alt="${p.name}">
+
+        <h3>${p.name}</h3>
+
+        <div class="price">
+            ${Number(p.price).toLocaleString("vi-VN")}đ
+        </div>
+
+        <button onclick="orderProduct('${p.name}', ${p.price})">
+            Đặt ngay
+        </button>
+
+    </div>
+    `;
+
+});
+
+function orderProduct(name, price) {
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({
+            id: Date.now(),
+            name: name,
+            price: Number(price),
+            qty: 1
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Đã thêm vào đơn hàng!");
+}
+
+</script>
+
+</body>
+</html>

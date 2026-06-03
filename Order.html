@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>POS Bán Hàng</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:#eef2f6;
+    padding:20px;
+}
+
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+header{
+    background:#0d8ed7;
+    color:white;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+}
+
+.tab{
+    background:#fff;
+    color:#555;
+    padding:10px 15px;
+    border-radius:4px;
+}
+
+
+.toolbar{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.toolbar input{
+    width:100%;
+    height:40px;
+    border:1px solid #ddd;
+    border-radius:5px;
+    padding:0 10px;
+}
+
+
+#orderList{
+    min-height:400px;
+}
+
+.item{
+    display:flex;
+    align-items:center;
+    padding:18px;
+    border-bottom:1px solid #eee;
+}
+
+.delete{
+    width:40px;
+    color:#ff4d4d;
+    cursor:pointer;
+    font-size:22px;
+    text-align:center;
+}
+
+.info{
+    flex:1;
+}
+
+.name{
+    font-size:18px;
+    color:#333;
+}
+
+.note{
+    font-size:13px;
+    color:#999;
+    margin-top:4px;
+}
+
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.qty button{
+    width:32px;
+    height:32px;
+    border:1px solid #ddd;
+    background:#fff;
+    cursor:pointer;
+    border-radius:4px;
+}
+
+.qty span{
+    width:30px;
+    text-align:center;
+}
+
+.price,
+.total{
+    width:130px;
+    text-align:right;
+    font-weight:600;
+}
+
+footer{
+    border-top:2px solid #ddd;
+    padding:20px;
+}
+
+.summary{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.summary h2{
+    color:#222;
+}
+
+.add-product{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.add-product input{
+    flex:1;
+    height:40px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    padding:0 10px;
+}
+
+.add-product button{
+    width:150px;
+    background:#0d8ed7;
+    color:#fff;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.pay-btn{
+    width:100%;
+    height:55px;
+    background:#4caf50;
+    color:#fff;
+    font-size:18px;
+    border:none;
+    cursor:pointer;
+    border-radius:4px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <a class="tab" href="index.html">Về trang chủ</a>
+    <a class="tab" href="admin.html">Admin</a>
+</header>
+
+<div class="toolbar">
+    <input type="text" placeholder="Tìm khách hàng (F4)">
+</div>
+
+<div id="orderList"></div>
+
+<footer>
+
+    <div class="summary">
+        <span>Tổng tiền</span>
+        <h2 id="grandTotal">0 đ</h2>
+    </div>
+
+    <div class="add-product">
+        <input id="name" placeholder="Tên món">
+        <input id="price" type="number" placeholder="Giá">
+        <button onclick="addProduct()">Thêm món</button>
+    </div>
+
+    <button class="pay-btn" onclick="payOrder()">
+        Thanh toán
+    </button>
+
+</footer>
+
+</div>
+
+<script>
+
+
+let products = JSON.parse(localStorage.getItem("cart")) || [];
+const orderList = document.getElementById("orderList");
+render();
+
+function money(n){
+    return n.toLocaleString("vi-VN") + " đ";
+}
+
+function render(){
+
+    orderList.innerHTML = "";
+
+    products.forEach(item=>{
+
+        const div = document.createElement("div");
+        div.className = "item";
+
+        div.innerHTML = `
+            <div class="delete" onclick="removeItem(${item.id})">×</div>
+
+            <div class="info">
+                <div class="name">${item.name}</div>
+                <div class="note">Ghi chú / Món thêm</div>
+            </div>
+
+            <div class="qty">
+                <button onclick="minus(${item.id})">-</button>
+                <span>${item.qty}</span>
+                <button onclick="plus(${item.id})">+</button>
+            </div>
+
+            <div class="price">${money(item.price)}</div>
+            <div class="total">${money(item.price * item.qty)}</div>
+        `;
+
+        orderList.appendChild(div);
+    });
+
+    totalMoney();
+}
+
+
+function plus(id){
+    const p = products.find(x=>x.id===id);
+    p.qty++;
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(products)
+    );
+
+    render();
+}
+
+function minus(id){
+    const p = products.find(x=>x.id===id);
+
+    if(p.qty > 1){
+        p.qty--;
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(products)
+    );
+
+    render();
+}
+
+function removeItem(id){
+    products = products.filter(x=>x.id !== id);
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(products)
+    );
+
+    render();
+}
+
+function totalMoney(){
+    const total = products.reduce((s,i)=>s + i.price*i.qty,0);
+    document.getElementById("grandTotal").innerText = money(total);
+}
+
+
+function addProduct(){
+
+    const name = document.getElementById("name").value.trim();
+    const price = Number(document.getElementById("price").value);
+
+    if(!name || price <= 0){
+        alert("Nhập đúng tên và giá");
+        return;
+    }
+
+    products.push({
+        id: Date.now(),
+        name,
+        price,
+        qty:1
+    });
+
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+
+    render();
+}
+
+
+function payOrder(){
+
+    if(products.length === 0){
+        alert("Không có món để thanh toán");
+        return;
+    }
+
+    const total = products.reduce((s,i)=>s+i.price*i.qty,0);
+
+    alert("Thanh toán thành công!\nTổng: " + money(total));
+
+    localStorage.removeItem("cart");
+
+    products = [];
+
+    render();
+}
+
+render();
+
+</script>
+
+</body>
+</html>

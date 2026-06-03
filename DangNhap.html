@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập hệ thống</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background-image:url("https://noithatanthinhphat.vn/wp-content/uploads/2024/03/thiet-ke-quan-cafe-chill-4.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.container{
+    width:400px;
+    padding:30px;
+
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);
+
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.container h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+.role-select{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.role-btn{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#ddd;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.role-btn.active{
+    background:#4facfe;
+    color:white;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:5px;
+    color:#555;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+.login-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#4facfe;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#2f8ef7;
+}
+
+.message{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.success{
+    color:green;
+}
+
+.error{
+    color:red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Đăng nhập hệ thống</h2>
+
+    <div class="role-select">
+        <button class="role-btn active"
+                onclick="selectRole('user',this)">
+            User
+        </button>
+
+        <button class="role-btn"
+                onclick="selectRole('admin',this)">
+            Admin
+        </button>
+    </div>
+
+    <div class="input-group">
+        <label>Tài khoản</label>
+        <input type="text"
+               id="username"
+               placeholder="Nhập tài khoản">
+    </div>
+
+    <div class="input-group">
+        <label>Mật khẩu</label>
+        <input type="password"
+               id="password"
+               placeholder="Nhập mật khẩu">
+    </div>
+
+    <button class="login-btn" onclick="login()">
+        Đăng nhập
+    </button>
+
+    <div class="message" id="message"></div>
+
+</div>
+
+<script>
+
+let currentRole = "user";
+
+function selectRole(role, element){
+
+    currentRole = role;
+
+    document
+        .querySelectorAll(".role-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+    element.classList.add("active");
+}
+
+function login(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value.trim();
+
+    const message =
+        document.getElementById("message");
+
+    // Không được để trống
+    if(username === "" || password === ""){
+        message.className = "message error";
+        message.innerText =
+            "Vui lòng nhập đầy đủ tài khoản và mật khẩu!";
+        return;
+    }
+
+    if(currentRole === "admin"){
+
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if(!emailRegex.test(username)){
+            message.className = "message error";
+            message.innerText =
+                "Admin phải đăng nhập bằng Email!";
+            return;
+        }
+
+        
+        localStorage.setItem("loggedIn","true");
+        localStorage.setItem("role","admin");
+
+        window.location.href = "admin.html";
+        return;
+    }
+
+    if(currentRole === "user"){
+
+        const userRegex =
+            /^[a-zA-ZÀ-ỹ\s]+$/;
+
+        if(!userRegex.test(username)){
+            message.className = "message error";
+            message.innerText =
+                "Tên User chỉ được nhập chữ!";
+            return;
+        }
+
+        localStorage.setItem("loggedIn","true");
+        localStorage.setItem("role","user");
+
+        window.location.href = "index.html";
+    }
+}
+
+
+</script>
+
+</body>
+</html>
